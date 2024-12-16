@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Visualizar Consultas</title>
+    <style>
+        /* ...copy styles from manage_appointments.html... */
+    </style>
+</head>
+<body>
+    <h2>Consultas</h2>
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% if appointments %}
+        <table>
+            <tr>
+                <th>Cliente</th>
+                <th>Dentista</th>
+                <th>Data e Hora</th>
+                <th>Status</th>
+            </tr>
+            {% for appointment in appointments %}
+            <tr>
+                <td>{{ appointment.client.user.username }}</td>
+                <td>{{ appointment.dentist.user.username }}</td>
+                <td>{{ appointment.date_time }}</td>
+                <td>{{ appointment.get_status_display }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>Não há consultas para exibir.</p>
+    {% endif %}
+    <a href="{% url 'home' %}" class="back-link">Voltar ao Início</a>
+</body>
+</html>

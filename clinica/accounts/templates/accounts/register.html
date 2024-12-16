@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar</title>
+    <style>
+        /* Estilos semelhantes ao login */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #007BFF;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .register-container {
+            background-color: #FFF;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+            font-size: 14px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #CCC;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007BFF;
+            color: #FFF;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            color: #D8000C;
+            text-align: center;
+            font-size: 14px;
+        }
+    </style>
+    <script>
+        function toggleSpecialization() {
+            var role = document.getElementById('id_role').value;
+            var specializationDiv = document.getElementById('specialization_div');
+            if (role === 'dentist') {
+                specializationDiv.style.display = 'block';
+            } else {
+                specializationDiv.style.display = 'none';
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="register-container">
+        <h2>Registrar</h2>
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            {{ form.username.label_tag }}
+            {{ form.username }}
+            {{ form.email.label_tag }}
+            {{ form.email }}
+            {{ form.password1.label_tag }}
+            {{ form.password1 }}
+            {{ form.password2.label_tag }}
+            {{ form.password2 }}
+            {{ form.role.label_tag }}
+            <select name="role" id="id_role" onchange="toggleSpecialization()" class="form-control">
+                {% for value, label in form.fields.role.choices %}
+                    <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
+            </select>
+            <div id="specialization_div" style="display: none;">
+                {{ form.specialization.label_tag }}
+                {{ form.specialization }}
+            </div>
+            <button type="submit">Registrar</button>
+        </form>
+        <p>Já tem uma conta? <a href="{% url 'login' %}">Entrar</a></p>
+    </div>
+</body>
+</html>

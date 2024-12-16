@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gerenciar Consultas</title>
+    <style>
+        /* Estilos para a página de gerenciamento de consultas */
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+        th, td {
+            border: 1px solid #CCC;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #F2F2F2;
+        }
+        a.button {
+            background-color: #007BFF;
+            color: #FFF;
+            padding: 8px 12px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-right: 5px;
+        }
+        a.button:hover {
+            background-color: #0056b3;
+        }
+        a.back-link {
+            color: #007BFF;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <h2>Consultas Pendentes</h2>
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% if appointments %}
+        <table>
+            <tr>
+                <th>Cliente</th>
+                <th>Data e Hora</th>
+                <th>Ações</th>
+            </tr>
+            {% for appointment in appointments %}
+            <tr>
+                <td>{{ appointment.client.user.username }}</td>
+                <td>{{ appointment.date_time }}</td>
+                <td>
+                    <a href="{% url 'accept_appointment' appointment.id %}" class="button">Aceitar</a>
+                    <a href="{% url 'reject_appointment' appointment.id %}" class="button">Recusar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>Não há consultas pendentes.</p>
+    {% endif %}
+    <a href="{% url 'home' %}" class="back-link">Voltar ao Início</a>
+</body>
+</html>
