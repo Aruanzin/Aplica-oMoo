@@ -24,6 +24,14 @@ class RegisterForm(forms.ModelForm):
         widget=forms.TextInput(attrs={'class': 'form-control'})
     )
 
+    email = forms.EmailField(
+        label='Email',
+        widget=forms.EmailInput(attrs={'class': 'form-control'}),
+        error_messages={
+            'invalid': 'Por favor, insira um endereço de email válido.',
+        }
+    )
+
     class Meta:
         model = User
         fields = ['username', 'email']
@@ -59,6 +67,12 @@ class RegisterForm(forms.ModelForm):
             self.add_error('specialization', 'Especialização é obrigatória para dentistas.')
 
         return cleaned_data
+    
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError('Este email já está em uso.')
+        return email
 
 class AppointmentRequestForm(forms.ModelForm):
     date = forms.DateField(
