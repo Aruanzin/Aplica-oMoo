@@ -26,4 +26,4 @@ def reset_password_view(request):
         else:
             messages.error(request, 'As senhas não coincidem.')
 
-    return render(request, 'accounts/reset_password.html', {'user': user})
+    return render(request, 'reset_password.html', {'user': user})

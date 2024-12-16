@@ -31,7 +31,7 @@ def request_appointment_view(request):
     else:
         form = AppointmentRequestForm()
     
-    return render(request, 'accounts/request_appointment.html', {'form': form})
+    return render(request, 'request_appointment.html', {'form': form})
 
 @login_required(login_url='login')
 def get_available_times(request):
@@ -71,7 +71,7 @@ def manage_appointments_view(request):
         messages.error(request, 'Apenas secretárias podem gerenciar consultas.')
         return redirect('home')
     appointments = AppointmentController.get_pending_appointments()
-    return render(request, 'accounts/manage_appointments.html', {'appointments': appointments})
+    return render(request, 'manage_appointments.html', {'appointments': appointments})
 
 @login_required(login_url='login')
 def accept_appointment_view(request, appointment_id):
@@ -115,4 +115,4 @@ def view_appointments(request):
         messages.error(request, 'Acesso não autorizado.')
         return redirect('home')
     
-    return render(request, 'accounts/view_appointments.html', {'appointments': appointments})
+    return render(request, 'view_appointments.html', {'appointments': appointments})

@@ -23,7 +23,7 @@ def manage_schedule_view(request):
         form = ScheduleForm()
     
     schedules = Schedule.objects.filter(dentist=dentist)
-    return render(request, 'accounts/manage_schedule.html', {
+    return render(request, 'manage_schedule.html', {
         'form': form,
         'schedules': schedules
     })

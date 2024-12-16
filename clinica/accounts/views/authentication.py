@@ -6,7 +6,7 @@ from ..forms.auth_forms import RegisterForm  # Atualizado
 def login_view(request):
     if AuthController.login_user(request):
         return redirect('home')
-    return render(request, 'accounts/login.html')
+    return render(request, 'login.html')
 
 def logout_view(request):
     AuthController.logout_user(request)
@@ -20,4 +20,4 @@ def register_view(request):
             return redirect('login')
     else:
         form = RegisterForm()
-    return render(request, 'accounts/register.html', {'form': form})
+    return render(request, 'register.html', {'form': form})

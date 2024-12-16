@@ -39,4 +39,4 @@ def configure_user_view(request):
         else:
             messages.error(request, 'Erro ao atualizar configurações.')
 
-    return render(request, 'accounts/configure_user.html', {'form': form})
+    return render(request, 'configure_user.html', {'form': form})
