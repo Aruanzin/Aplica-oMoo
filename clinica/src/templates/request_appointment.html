@@ -1,4 +1,4 @@
-{% extends 'accounts/base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}Solicitar Consulta{% endblock %}
 
@@ -34,7 +34,7 @@
             const date = dateInput.value;
 
             if (dentistId && date) {
-                fetch(`/accounts/get_available_times/?dentist_id=${dentistId}&date=${date}`)
+                fetch(`/get_available_times/?dentist_id=${dentistId}&date=${date}`)
                     .then(response => response.json())
                     .then(data => {
                         timeSelect.innerHTML = '<option value="">Selecione um horário</option>';

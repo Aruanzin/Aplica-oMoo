@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',  # Necessário para gerenciar sessões
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accounts',
+    'src',
 ]
 
 MIDDLEWARE = [
@@ -54,7 +54,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'accounts.urls'
+ROOT_URLCONF = 'src.urls'
 
 TEMPLATES = [
     {
@@ -67,14 +67,14 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'accounts.context_processors.user_type',
+                'src.context_processors.user_type',
             ],
         },
     },
 ]
 
 
-WSGI_APPLICATION = 'accounts.wsgi.application'
+WSGI_APPLICATION = 'src.wsgi.application'
 
 
 # Database

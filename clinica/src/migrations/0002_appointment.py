@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('accounts', '0001_initial'),
+        ('src', '0001_initial'),
     ]
 
     operations = [
@@ -18,8 +18,8 @@ class Migration(migrations.Migration):
                 ('date_time', models.DateTimeField()),
                 ('status', models.CharField(choices=[('pending', 'Pendente'), ('accepted', 'Aceito'), ('rejected', 'Recusado')], default='pending', max_length=10)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('client', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='accounts.client')),
-                ('secretary', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='accounts.secretary')),
+                ('client', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='src.client')),
+                ('secretary', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='src.secretary')),
             ],
             options={
                 'unique_together': {('date_time',)},

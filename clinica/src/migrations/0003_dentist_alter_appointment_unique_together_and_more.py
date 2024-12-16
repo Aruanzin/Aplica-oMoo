@@ -8,7 +8,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('accounts', '0002_appointment'),
+        ('src', '0002_appointment'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='appointment',
             name='dentist',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='accounts.dentist'),
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='src.dentist'),
         ),
         migrations.AlterUniqueTogether(
             name='appointment',

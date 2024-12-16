@@ -1,6 +1,6 @@
 [
     {
-        "model": "accounts.DentalPlan",
+        "model": "src.DentalPlan",
         "pk": 1,
         "fields": {
             "type": "Plano Básico",
@@ -8,7 +8,7 @@
         }
     },
     {
-        "model": "accounts.DentalPlan",
+        "model": "src.DentalPlan",
         "pk": 2,
         "fields": {
             "type": "Plano Premium",

@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('accounts', '0003_dentist_alter_appointment_unique_together_and_more'),
+        ('src', '0003_dentist_alter_appointment_unique_together_and_more'),
     ]
 
     operations = [
@@ -97,12 +97,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='appointment',
             name='dental_plan',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='accounts.dentalplan'),
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='src.dentalplan'),
         ),
         migrations.AddField(
             model_name='client',
             name='dental_plan',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='accounts.dentalplan'),
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='src.dentalplan'),
         ),
         migrations.CreateModel(
             name='Schedule',
@@ -112,7 +112,7 @@ class Migration(migrations.Migration):
                 ('start_time', models.TimeField()),
                 ('end_time', models.TimeField()),
                 ('is_active', models.BooleanField(default=True)),
-                ('dentist', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='schedules', to='accounts.dentist')),
+                ('dentist', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='schedules', to='src.dentist')),
             ],
             options={
                 'ordering': ['weekday', 'start_time'],
