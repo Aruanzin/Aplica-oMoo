@@ -22,7 +22,10 @@ def logout_view(request):
 def register_view(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
-        if AuthController.register_user(form):
+        if form.is_valid():  # As validações são feitas automaticamente no formulário
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password1'])
+            user.save()
             messages.success(request, 'Cadastro realizado com sucesso.')
             return redirect('login')
     else:

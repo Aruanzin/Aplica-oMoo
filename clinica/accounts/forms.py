@@ -41,12 +41,23 @@ class RegisterForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
+        username = cleaned_data.get('username')
+        email = cleaned_data.get('email')
         role = cleaned_data.get('role')
         specialization = cleaned_data.get('specialization')
-        
+
+        # Verificar se o nome de usuário já existe
+        if User.objects.filter(username=username).exists():
+            self.add_error('username', 'Este nome de usuário já está em uso.')
+
+        # Verificar se o email já existe
+        if User.objects.filter(email=email).exists():
+            self.add_error('email', 'Este email já está em uso.')
+
+        # Verificar se a especialização foi fornecida para dentistas
         if role == 'dentist' and not specialization:
-            raise forms.ValidationError('Especialização é obrigatória para dentistas.')
-        
+            self.add_error('specialization', 'Especialização é obrigatória para dentistas.')
+
         return cleaned_data
 
 class AppointmentRequestForm(forms.ModelForm):

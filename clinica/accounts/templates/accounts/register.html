@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Registrar</title>
     <style>
-        /* Estilos semelhantes ao login */
         body {
             margin: 0;
             padding: 0;
@@ -30,13 +29,19 @@
             color: #333;
             font-size: 14px;
         }
-        input {
+        input, select {
             width: 100%;
             padding: 10px;
-            margin-bottom: 15px;
+            margin-bottom: 5px;
             border: 1px solid #CCC;
             border-radius: 4px;
             box-sizing: border-box;
+        }
+        .error {
+            color: #D8000C;
+            font-size: 12px;
+            margin-bottom: 10px;
+            text-align: left;
         }
         button {
             background-color: #007BFF;
@@ -75,33 +80,56 @@
 <body>
     <div class="register-container">
         <h2>Registrar</h2>
-        {% if messages %}
-            <ul>
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
         <form method="post">
             {% csrf_token %}
+            <!-- Nome de usuário -->
             {{ form.username.label_tag }}
             {{ form.username }}
+            {% if form.username.errors %}
+                <div class="error">{{ form.username.errors.0 }}</div>
+            {% endif %}
+
+            <!-- Email -->
             {{ form.email.label_tag }}
             {{ form.email }}
+            {% if form.email.errors %}
+                <div class="error">{{ form.email.errors.0 }}</div>
+            {% endif %}
+
+            <!-- Senha -->
             {{ form.password1.label_tag }}
             {{ form.password1 }}
+            {% if form.password1.errors %}
+                <div class="error">{{ form.password1.errors.0 }}</div>
+            {% endif %}
+
+            <!-- Confirmação de Senha -->
             {{ form.password2.label_tag }}
             {{ form.password2 }}
+            {% if form.password2.errors %}
+                <div class="error">{{ form.password2.errors.0 }}</div>
+            {% endif %}
+
+            <!-- Tipo de Usuário -->
             {{ form.role.label_tag }}
             <select name="role" id="id_role" onchange="toggleSpecialization()" class="form-control">
                 {% for value, label in form.fields.role.choices %}
-                    <option value="{{ value }}">{{ label }}</option>
+                    <option value="{{ value }}" {% if form.role.value == value %}selected{% endif %}>{{ label }}</option>
                 {% endfor %}
             </select>
+            {% if form.role.errors %}
+                <div class="error">{{ form.role.errors.0 }}</div>
+            {% endif %}
+
+            <!-- Especialização -->
             <div id="specialization_div" style="display: none;">
                 {{ form.specialization.label_tag }}
                 {{ form.specialization }}
+                {% if form.specialization.errors %}
+                    <div class="error">{{ form.specialization.errors.0 }}</div>
+                {% endif %}
             </div>
+
             <button type="submit">Registrar</button>
         </form>
         <p>Já tem uma conta? <a href="{% url 'login' %}">Entrar</a></p>
