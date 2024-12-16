@@ -1,41 +1,98 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Visualizar Consultas</title>
-    <style>
-        /* ...copy styles from manage_appointments.html... */
-    </style>
-</head>
-<body>
-    <h2>Consultas</h2>
-    {% if messages %}
-        <ul>
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-    {% if appointments %}
-        <table>
-            <tr>
+{% extends 'accounts/base.html' %}
+
+{% block title %}Visualizar Consultas{% endblock %}
+
+{% block content %}
+<h2>Consultas</h2>
+{% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+{% if appointments %}
+    <table class="appointments-table">
+        <tr>
+            {% if not user.client %}
                 <th>Cliente</th>
+            {% endif %}
+            {% if not user.dentist %}
                 <th>Dentista</th>
-                <th>Data e Hora</th>
-                <th>Status</th>
-            </tr>
-            {% for appointment in appointments %}
-            <tr>
+            {% endif %}
+            <th>Data e Hora</th>
+            <th>Status</th>
+            {% if user.secretary or user.client %}
+                <th>Situação</th>
+            {% endif %}
+        </tr>
+        {% for appointment in appointments %}
+        <tr>
+            {% if not user.client %}
                 <td>{{ appointment.client.user.username }}</td>
+            {% endif %}
+            {% if not user.dentist %}
                 <td>{{ appointment.dentist.user.username }}</td>
-                <td>{{ appointment.date_time }}</td>
-                <td>{{ appointment.get_status_display }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    {% else %}
-        <p>Não há consultas para exibir.</p>
-    {% endif %}
-    <a href="{% url 'home' %}" class="back-link">Voltar ao Início</a>
-</body>
-</html>
+            {% endif %}
+            <td>{{ appointment.date_time|date:"d/m/Y H:i" }}</td>
+            <td>{{ appointment.get_status_display }}</td>
+            {% if user.secretary or user.client %}
+                <td>
+                    {% if appointment.status == 'pending' %}
+                        {% if user.secretary %}
+                            <a href="{% url 'accept_appointment' appointment.id %}">Aceitar</a>
+                            <a href="{% url 'reject_appointment' appointment.id %}">Recusar</a>
+                        {% else %}
+                            Aguardando aprovação
+                        {% endif %}
+                    {% elif appointment.status == 'accepted' %}
+                        Confirmada
+                    {% else %}
+                        Recusada
+                    {% endif %}
+                </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>Não há consultas para exibir.</p>
+{% endif %}
+<a href="{% url 'home' %}" class="back-link">Voltar ao Início</a>
+{% endblock %}
+
+<!-- Added CSS class for better styling -->
+ {% block extra_styles %}
+<style>
+    .appointments-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .appointments-table th, .appointments-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+    .appointments-table th {
+        background-color: #f2f2f2;
+        text-align: left;
+    }
+    .appointments-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    .appointments-table tr:hover {
+        background-color: #e9e9e9;
+    }
+    .back-link {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 15px;
+        background-color: #007BFF;
+        color: #FFF;
+        text-decoration: none;
+        border-radius: 4px;
+    }
+    .back-link:hover {
+        background-color: #0056b3;
+    }
+</style>
+{% endblock %}

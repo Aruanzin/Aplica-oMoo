@@ -1,75 +1,89 @@
+{% extends 'accounts/base.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Gerenciar Consultas</title>
-    <style>
-        /* Estilos para a página de gerenciamento de consultas */
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 15px;
-        }
-        th, td {
-            border: 1px solid #CCC;
-            padding: 10px;
-            text-align: left;
-        }
-        th {
-            background-color: #F2F2F2;
-        }
-        a.button {
-            background-color: #007BFF;
-            color: #FFF;
-            padding: 8px 12px;
-            text-decoration: none;
-            border-radius: 4px;
-            margin-right: 5px;
-        }
-        a.button:hover {
-            background-color: #0056b3;
-        }
-        a.back-link {
-            color: #007BFF;
-            text-decoration: none;
-        }
-    </style>
-</head>
-<body>
-    <h2>Consultas Pendentes</h2>
-    {% if messages %}
-        <ul>
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-    {% if appointments %}
-        <table>
-            <tr>
-                <th>Cliente</th>
-                <th>Data e Hora</th>
-                <th>Ações</th>
-            </tr>
-            {% for appointment in appointments %}
-            <tr>
-                <td>{{ appointment.client.user.username }}</td>
-                <td>{{ appointment.date_time }}</td>
-                <td>
-                    <a href="{% url 'accept_appointment' appointment.id %}" class="button">Aceitar</a>
-                    <a href="{% url 'reject_appointment' appointment.id %}" class="button">Recusar</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
-    {% else %}
-        <p>Não há consultas pendentes.</p>
-    {% endif %}
-    <a href="{% url 'home' %}" class="back-link">Voltar ao Início</a>
-</body>
-</html>
+{% block title %}Gerenciar Consultas{% endblock %}
+
+{% block content %}
+<h2>Consultas Pendentes</h2>
+{% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+{% if appointments %}
+    <table class="appointments-table">
+        <tr>
+            <th>Cliente</th>
+            <th>Data e Hora</th>
+            <th>Ações</th>
+        </tr>
+        {% for appointment in appointments %}
+        <tr>
+            <td>{{ appointment.client.user.username }}</td>
+            <td>{{ appointment.date_time|date:"d/m/Y H:i" }}</td>
+            <td>
+                <a href="{% url 'accept_appointment' appointment.id %}" class="button accept-button">Aceitar</a>
+                <a href="{% url 'reject_appointment' appointment.id %}" class="button reject-button">Recusar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>Não há consultas pendentes.</p>
+{% endif %}
+<a href="{% url 'home' %}" class="back-link">Voltar ao Início</a>
+{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .appointments-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .appointments-table th, .appointments-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+    .appointments-table th {
+        background-color: #f2f2f2;
+        text-align: left;
+    }
+    .appointments-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    .appointments-table tr:hover {
+        background-color: #e9e9e9;
+    }
+    .button {
+        padding: 8px 12px;
+        text-decoration: none;
+        border-radius: 4px;
+        color: #FFF;
+    }
+    .accept-button {
+        background-color: #28a745;
+    }
+    .accept-button:hover {
+        background-color: #218838;
+    }
+    .reject-button {
+        background-color: #dc3545;
+    }
+    .reject-button:hover {
+        background-color: #c82333;
+    }
+    .back-link {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 15px;
+        background-color: #007BFF;
+        color: #FFF;
+        text-decoration: none;
+        border-radius: 4px;
+    }
+    .back-link:hover {
+        background-color: #0056b3;
+    }
+</style>
+{% endblock %}

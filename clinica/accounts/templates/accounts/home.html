@@ -1,78 +1,8 @@
 <!-- accounts/templates/accounts/home.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Página Inicial</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-        }
-        /* Header styles */
-        .header {
-            background-color: #007BFF;
-            color: #FFF;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .header h2 {
-            margin: 0;
-            font-size: 24px;
-        }
-        .header .user-info {
-            display: flex;
-            align-items: center;
-        }
-        .header .user-info span {
-            margin-right: 15px;
-            font-size: 16px;
-        }
-        .header .user-info a {
-            color: #FFF;
-            text-decoration: none;
-            font-size: 16px;
-            padding: 8px 12px;
-            background-color: #0056b3;
-            border-radius: 4px;
-        }
-        .header .user-info a:hover {
-            background-color: #003f7f;
-        }
-        /* Content styles */
-        .content {
-            padding: 20px;
-        }
-        .content h3 {
-            font-size: 20px;
-        }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h2>Home</h2>
-        <div class="user-info">
-            <span>Olá, {{ request.user.username }}!</span>
-            <a href="{% url 'logout' %}">Sair</a>
-        </div>
-    </div>
-    <div class="content">
-        <h3>Bem-vindo à página inicial!</h3>
-        {% if user_type == 'client' %}
-            <p><a href="{% url 'request_appointment' %}">Solicitar Consulta</a></p>
-        {% endif %}
-        {% if user_type == 'secretary' %}
-            <p><a href="{% url 'manage_appointments' %}">Gerenciar Consultas</a></p>
-            <p><a href="{% url 'view_appointments' %}">Visualizar Todas as Consultas</a></p>
-        {% endif %}
-        {% if user_type == 'clinic_owner' %}
-            <p><a href="{% url 'view_appointments' %}">Visualizar Todas as Consultas</a></p>
-        {% endif %}
-        {% if user_type == 'dentist' %}
-            <p><a href="{% url 'view_appointments' %}">Minhas Consultas</a></p>
-        {% endif %}
-    </div>
-</body>
-</html>
+{% extends 'accounts/base.html' %}
+
+{% block title %}Página Inicial{% endblock %}
+
+{% block content %}
+<h3>Bem-vindo à página inicial!</h3>
+{% endblock %}

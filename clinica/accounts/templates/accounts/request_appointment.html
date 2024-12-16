@@ -1,68 +1,111 @@
+{% extends 'accounts/base.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Solicitar Consulta</title>
-    <style>
-        /* Estilos para a página de solicitação de consulta */
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
-        form {
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
-        input[type="datetime-local"] {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 15px;
-            border: 1px solid #CCC;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        button {
-            background-color: #007BFF;
-            color: #FFF;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        a {
-            display: block;
-            text-align: center;
-            margin-top: 15px;
-            color: #007BFF;
-            text-decoration: none;
-        }
-    </style>
-</head>
-<body>
-    <h2>Solicitar Consulta</h2>
-    {% if messages %}
-        <ul>
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-    <form method="post">
+{% block title %}Solicitar Consulta{% endblock %}
+
+{% block content %}
+<h2 class="appointment-title">Solicitar Nova Consulta</h2>
+{% if messages %}
+    <ul>
+        {% for message in messages %} 
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+<div class="appointment-form">
+    <form method="post" class="styled-form">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Solicitar</button>
+        <button type="submit" class="button submit-button">Solicitar</button>
+        <a href="{% url 'home' %}" class="back-link">Voltar ao Início</a>
+
     </form>
-    <a href="{% url 'home' %}">Voltar ao Início</a>
-</body>
-</html>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const dentistSelect = document.getElementById('id_dentist');
+        const dateInput = document.getElementById('id_date');
+        const timeSelect = document.getElementById('id_time');
+
+        function updateAvailableTimes() {
+            const dentistId = dentistSelect.value;
+            const date = dateInput.value;
+
+            if (dentistId && date) {
+                fetch(`/accounts/get_available_times/?dentist_id=${dentistId}&date=${date}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        timeSelect.innerHTML = '<option value="">Selecione um horário</option>';
+                        data.times.forEach(time => {
+                            const option = document.createElement('option');
+                            option.value = time;
+                            option.textContent = time;
+                            timeSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Erro ao carregar horários:', error);
+                    });
+            }
+        }
+
+        dentistSelect.addEventListener('change', updateAvailableTimes);
+        dateInput.addEventListener('change', updateAvailableTimes);
+    });
+</script>
+{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .styled-form {
+        max-width: 600px;
+        margin: 0 auto 30px auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .styled-form input, .styled-form select, .styled-form textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    .styled-form label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        display: block;
+    }
+    .button.submit-button {
+        background-color: #007BFF;
+        border: none;
+        padding: 10px 20px;
+        color: #FFF;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    .button.submit-button:hover {
+        background-color: #0056b3;
+    }
+    .back-link {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 15px;
+        background-color: #6c757d;
+        color: #FFF;
+        text-decoration: none;
+        border-radius: 4px;
+    }
+    .back-link:hover {
+        background-color: #5a6268;
+    }
+    .appointment-title{
+        text-align: center;
+    }
+</style>
+{% endblock %}

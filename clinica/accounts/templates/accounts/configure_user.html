@@ -1,0 +1,62 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}Configurações{% endblock %}
+
+{% block content %}
+<h2 class="config-title">Configurações</h2>
+<form method="post" class="styled-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="button save-button">Salvar Configurações</button>
+    <a href="{% url 'home' %}" class="back-link">Voltar ao Início</a>
+</form>
+
+{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .config-title {
+        text-align: center;
+    }
+    .styled-form {
+        max-width: 600px;
+        margin: 0 auto 30px auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .styled-form input, .styled-form select, .styled-form textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    .button.save-button {
+        background-color: #28a745;
+        border: none;
+        padding: 10px 20px;
+        color: #FFF;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    .button.save-button:hover {
+        background-color: #218838;
+    }
+    .back-link {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 15px;
+        background-color: #6c757d;
+        color: #FFF;
+        text-decoration: none;
+        border-radius: 4px;
+    }
+    .back-link:hover {
+        background-color: #5a6268;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,18 @@
+[
+    {
+        "model": "accounts.DentalPlan",
+        "pk": 1,
+        "fields": {
+            "type": "Plano Básico",
+            "number": "12345"
+        }
+    },
+    {
+        "model": "accounts.DentalPlan",
+        "pk": 2,
+        "fields": {
+            "type": "Plano Premium",
+            "number": "67890"
+        }
+    }
+]

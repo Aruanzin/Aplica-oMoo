@@ -1,8 +1,5 @@
 from .auth_controller import AuthController
 from .appointment_controller import AppointmentController
-
-# __init__.py for the controllers package
-
-# Importing all controllers to make them available when the package is imported
-
-__all__ = ['AuthController', 'AppointmentController']
+from .dentist_controller import DentistController
+from .client_controller import ClientController
+from .secretary_controller import SecretaryController

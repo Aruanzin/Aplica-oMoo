@@ -75,3 +75,7 @@ class DentistController:
             return True
         except Schedule.DoesNotExist:
             return False
+        
+    @staticmethod
+    def get_active_dentists():
+        return Dentist.objects.filter(is_active=True)
